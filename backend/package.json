@@ -5,9 +5,12 @@
   "description": "Backend foundation and groups/categories API for Abu Zaabal Directory",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
-  },
+  "start": "node src/index.js",
+  "dev": "nodemon src/index.js",
+  "seed": "node src/scripts/seed.js",
+  "check": "node src/scripts/check-data.js"
+}
+  ,
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
