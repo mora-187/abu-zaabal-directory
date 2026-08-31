@@ -1,4 +1,5 @@
 const Provider=require("../models/Provider");
+const { generateSearchText } = require("../utils/searchText");
 
 const getProviders=async (req,res,next)=>{
     try{
@@ -25,7 +26,7 @@ catch(error){
 }
 const createProvider = async (req, res, next) => {
   try {
-    const { name, phones, groups, categories } = req.body||{};
+    const { name, phones, groups, categories,aliases } = req.body||{};
 
     if (!name || typeof name !== "string" || !name.trim()) {
       return res.status(400).json({
@@ -50,11 +51,19 @@ const createProvider = async (req, res, next) => {
         message: "categories must be an array"
       });
     }
+    if (aliases !== undefined && !Array.isArray(aliases)) {
+  return res.status(400).json({
+    message: "aliases must be an array"
+  });
+}
+const providerData = {
+  ...req.body,
+  name: name.trim()
+};
 
-    const provider = await Provider.create({
-      ...req.body,
-      name: name.trim()
-    });
+providerData.searchText = generateSearchText(providerData);
+
+const provider = await Provider.create(providerData);
 
     res.status(201).json(provider);
 
@@ -64,7 +73,7 @@ const createProvider = async (req, res, next) => {
 };
 const updateProvider = async (req, res, next) => {
   try {
-    const { name, phones, groups, categories } = req.body || {};
+    const { name, phones, groups, categories,aliases } = req.body || {};
 
     if (name !== undefined) {
       if (typeof name !== "string" || !name.trim()) {
@@ -91,7 +100,22 @@ const updateProvider = async (req, res, next) => {
         message: "categories must be an array"
       });
     }
+    if (aliases !== undefined && !Array.isArray(aliases)) {
+  return res.status(400).json({
+    message: "aliases must be an array"
+  });
+}
 
+    // Get current provider first
+    const existingProvider = await Provider.findById(req.params.id);
+
+    if (!existingProvider) {
+      return res.status(404).json({
+        message: "Provider not found"
+      });
+    }
+
+    // Data that will actually be updated
     const updateData = {
       ...req.body
     };
@@ -99,6 +123,19 @@ const updateProvider = async (req, res, next) => {
     if (name !== undefined) {
       updateData.name = name.trim();
     }
+
+    // Build searchText using new values when provided,
+    const searchData = {
+      name: updateData.name ?? existingProvider.name,
+      phones: updateData.phones ?? existingProvider.phones,
+      groups: updateData.groups ?? existingProvider.groups,
+      categories: updateData.categories ?? existingProvider.categories,
+      description: updateData.description ?? existingProvider.description,
+      area: updateData.area ?? existingProvider.area,
+      aliases: updateData.aliases ?? existingProvider.aliases
+    };
+
+    updateData.searchText = generateSearchText(searchData);
 
     const provider = await Provider.findByIdAndUpdate(
       req.params.id,
@@ -108,12 +145,6 @@ const updateProvider = async (req, res, next) => {
         runValidators: true
       }
     );
-
-    if (!provider) {
-      return res.status(404).json({
-        message: "Provider not found"
-      });
-    }
 
     res.status(200).json(provider);
 
