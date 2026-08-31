@@ -1,11 +1,13 @@
 const express = require('express');
 const cors = require('cors');
+const providerRoutes = require("./routes/providerRoutes");
 const categoryRoutes = require('./routes/categoryRoutes');
-
+const errorHandler = require("./middleware/errorHandler");
 const app = express();
-
 app.use(cors());
 app.use(express.json());
+
+app.use("/api/providers", providerRoutes);
 
 app.get('/', (req, res) => {
   res.status(200).json({
@@ -27,12 +29,6 @@ app.use((req, res) => {
   });
 });
 
-app.use((error, req, res, next) => {
-  console.error(error);
-
-  res.status(500).json({
-    message: 'Internal server error'
-  });
-});
+app.use(errorHandler);
 
 module.exports = app;
