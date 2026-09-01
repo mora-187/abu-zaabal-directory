@@ -1,29 +1,10 @@
 const Provider = require("../models/Provider.js");
-
+const {normalizeArabic}= require('../utils/searchText.js')
 
 function escapeRegex(text) {
   return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-/**
- * Normalize Arabic text so different letter forms / diacritics
- * are treated as equivalent when searching.
- * - Removes diacritics (tashkeel)
- * - Unifies alef forms (أ إ آ -> ا)
- * - Unifies alef maksura -> yeh (ى -> ي)
- * - Unifies teh marbuta -> heh (ة -> ه)
- * - Collapses extra whitespace
- */
-function normalizeArabic(text) {
-  if (!text) return "";
-  return text
-    .replace(/[\u064B-\u065F\u0670]/g, "") // diacritics
-    .replace(/[إأآا]/g, "ا")
-    .replace(/ى/g, "ي")
-    .replace(/ة/g, "ه")
-    .replace(/\s+/g, " ")
-    .trim();
-}
 
 const searchProvider = async (req, res, next) => {
   try {
