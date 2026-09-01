@@ -12,7 +12,7 @@ const searchProvider = async (req, res, next) => {
 
     // ---- Pagination params ----
     const _page = Math.max(parseInt(page, 10) || 1, 1);
-    const _limit = Math.max(parseInt(limit, 10) || 15, 1);
+    const _limit =Math.min( Math.max(parseInt(limit, 10) || 15, 1),50);
     const skip = (_page - 1) * _limit;
 
     // ---- Build filter dynamically (skip undefined/empty params) ----
@@ -59,8 +59,7 @@ const searchProvider = async (req, res, next) => {
       limit: _limit,
     });
   } catch (err) {
-    console.error("searchProvider error:", err);
-    return res.status(500).json({ message: err.message });
+    next(err);
   }
 };
 
