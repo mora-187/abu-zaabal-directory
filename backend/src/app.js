@@ -3,11 +3,13 @@ const cors = require('cors');
 const providerRoutes = require("./routes/providerRoutes");
 const categoryRoutes = require('./routes/categoryRoutes');
 const errorHandler = require("./middleware/errorHandler");
+const authRoutes = require("./routes/authRoutes");
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 app.use("/api/providers", providerRoutes);
+app.use("/api/auth", authRoutes);
 
 app.get('/', (req, res) => {
   res.status(200).json({
