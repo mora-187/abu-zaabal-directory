@@ -8,7 +8,8 @@ const {
     updateProvider,
     deleteProvider
 }=require("../controllers/providerController");
-
+const searchProvider= require('../controllers/searchController.js')
+router.get('/search',searchProvider);
 router.get("/",getProviders);
 router.get("/:id",getProviderById);
 router.post("/",createProvider);
