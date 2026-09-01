@@ -8,7 +8,8 @@
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "seed": "node src/scripts/seed.js",
-    "check": "node src/scripts/check-data.js"
+    "check": "node src/scripts/check-data.js",
+    "create-admin": "node src/scripts/createAdmin.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
