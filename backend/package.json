@@ -5,16 +5,18 @@
   "description": "Backend foundation and groups/categories API for Abu Zaabal Directory",
   "main": "src/index.js",
   "scripts": {
-  "start": "node src/index.js",
-  "dev": "nodemon src/index.js",
-  "seed": "node src/scripts/seed.js",
-  "check": "node src/scripts/check-data.js"
-}
-  ,
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "seed": "node src/scripts/seed.js",
+    "check": "node src/scripts/check-data.js",
+    "create-admin": "node src/scripts/createAdmin.js"
+  },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.3",
     "mongoose": "^8.18.0"
   },
   "devDependencies": {
