@@ -143,27 +143,33 @@
 
     <!-- Categories Card -->
     <div class="custom-card">
-      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-        <h4 class="fw-bold m-0">قائمة التصنيفات</h4>
-        <div class="d-flex gap-2">
-          <input type="text" id="categorySearchInput" class="form-control" placeholder="بحث عن تصنيف..." style="max-width: 250px;" oninput="filterCategories()">
-          <button class="btn btn-primary-custom" onclick="openAddCategoryModal()">
-            <i class="bi bi-plus-lg me-1"></i> إضافة تصنيف جديد
-          </button>
-        </div>
-      </div>
+  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <h4 class="fw-bold m-0">قائمة التصنيفات</h4>
+
+    <div class="d-flex gap-2 flex-wrap">
+      <select id="groupFilter" class="form-select" style="max-width: 260px;">
+        <option value="">كل المجموعات</option>
+      </select>
+
+      <input
+        type="text"
+        id="categorySearchInput"
+        class="form-control"
+        placeholder="بحث عن تصنيف..."
+        style="max-width: 250px;"
+      >
+    </div>
+  </div>
 
       <!-- Categories Table -->
       <div class="table-responsive">
         <table class="table table-hover align-middle">
-          <thead class="table-light">
+         <thead class="table-light">
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">اسم التصنيف الفرعي</th>
-              <th scope="col">المجموعة الأساسية</th>
-              <th scope="col" class="text-center">الإجراءات</th>
-            </tr>
-          </thead>
+         <th scope="col">#</th>
+          <th scope="col">اسم التصنيف الفرعي</th>
+         </tr>
+        </thead>
           <tbody id="categoriesTableBody">
             <!-- سيتم ملء البيانات بالـ JavaScript -->
           </tbody>
@@ -172,149 +178,156 @@
     </div>
 
   </main>
-
-  <!-- Add / Edit Category Modal -->
-  <div class="modal fade" id="categoryModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title fw-bold" id="catModalTitle">إضافة تصنيف جديد</h5>
-          <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body p-4">
-          <form id="categoryForm">
-            <input type="hidden" id="catId">
-            
-            <div class="mb-3">
-              <label class="form-label">المجموعة الأساسية</label>
-              <select id="catGroup" class="form-select" required>
-                <option value="" disabled selected>اختر المجموعة الأساسية...</option>
-                <option value="البناء والتشطيبات">البناء والتشطيبات</option>
-                <option value="الصيانة والخدمات المنزلية">الصيانة والخدمات المنزلية</option>
-                <option value="التسوق والمنزل والعناية الشخصية">التسوق والمنزل والعناية الشخصية</option>
-                <option value="الصحة والخدمات الطبية">الصحة والخدمات الطبية</option>
-                <option value="التعليم والتدريب">التعليم والتدريب</option>
-                <option value="السيارات والمواصلات">السيارات والمواصلات</option>
-                <option value="الكمبيوتر والإلكترونيات">الكمبيوتر والإلكترونيات</option>
-                <option value="المناسبات والرياضة">المناسبات والرياضة</option>
-                <option value="الخدمات المهنية والعقارية">الخدمات المهنية والعقارية</option>
-                <option value="الطعام والمواد الغذائية">الطعام والمواد الغذائية</option>
-              </select>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">اسم التصنيف الفرعي</label>
-              <input type="text" id="catName" class="form-control" placeholder="أدخل اسم التصنيف (مثال: سباكة)" required>
-            </div>
-
-            <div class="d-flex justify-content-end gap-2 mt-4">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-              <button type="submit" class="btn btn-primary-custom" id="catSubmitBtn">حفظ التصنيف</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Delete Modal -->
-  <div class="modal fade" id="deleteCatModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-body text-center p-4">
-          <i class="bi bi-exclamation-triangle text-danger" style="font-size: 3rem;"></i>
-          <h5 class="fw-bold mt-3">تأكيد حذف التصنيف</h5>
-          <p class="text-muted">هل أنت متأكد من رغبتك في حذف هذا التصنيف؟</p>
-          <div class="d-flex justify-content-center gap-2 mt-4">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-            <button type="button" class="btn btn-danger" id="confirmCatDeleteBtn">تأكيد الحذف</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
+  
+  
   <!-- Bootstrap 5 JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- Categories JS Logic -->
-  <script>
-  const API_CATEGORIES = 'http://localhost:5000/api/categories';
-  const API_GROUPS = 'http://localhost:5000/api/groups';
+<script>
+  const API_BASE_URL = 'http://localhost:5000/api';
+  const API_CATEGORIES = `${API_BASE_URL}/categories`;
+  const API_GROUPS = `${API_BASE_URL}/groups`;
 
   let categories = [];
   let groups = [];
 
-  // 1. جلب المجموعات والتصنيفات من السيرفر
   async function fetchCategoriesData(groupName = '') {
+    const tbody = document.getElementById('categoriesTableBody');
+
     try {
-      const url = groupName 
+      const url = groupName
         ? `${API_CATEGORIES}?group=${encodeURIComponent(groupName)}`
         : API_CATEGORIES;
 
       const response = await fetch(url);
-      if (!response.ok) throw new Error('تعذر جلب التصنيفات');
-      
-      const data = await response.json();
-      
-      // البيانات راجعة داخل results
-      categories = data.results || [];
-      renderCategoriesTable(categories);
-    } catch (error) {
-      console.error(error);
-      document.getElementById('categoriesTableBody').innerHTML = 
-        `<tr><td colspan="4" class="text-center text-danger py-4">فشل الاتصال بالخادم</td></tr>`;
-    }
-  }
 
-  // 2. جلب قائمة المجموعات لملء الـ Dropdown والفلتر
-  async function fetchGroupsData() {
-    try {
-      const res = await fetch(API_GROUPS);
-      const data = await res.json();
-      groups = data.results || [];
-      
-      const groupFilter = document.getElementById('groupFilter');
-      if (groupFilter) {
-        groupFilter.innerHTML = '<option value="">كل المجموعات</option>';
-        groups.forEach(g => {
-          groupFilter.innerHTML += `<option value="${g}">${g}</option>`;
-        });
+      if (!response.ok) {
+        throw new Error('تعذر جلب التصنيفات');
       }
-    } catch (err) {
-      console.error("فشل جلب المجموعات:", err);
+
+      const data = await response.json();
+
+      categories = Array.isArray(data.results)
+        ? data.results
+        : [];
+
+      filterCategories();
+
+    } catch (error) {
+      console.error('Error loading categories:', error);
+
+      tbody.innerHTML =
+        `<tr>
+          <td colspan="2" class="text-center text-danger py-4">
+            فشل الاتصال بالخادم
+          </td>
+        </tr>`;
     }
   }
 
-  // 3. عرض التصنيفات في الجدول
+  async function fetchGroupsData() {
+    const groupFilter = document.getElementById('groupFilter');
+
+    try {
+      const response = await fetch(API_GROUPS);
+
+      if (!response.ok) {
+        throw new Error('تعذر جلب المجموعات');
+      }
+
+      const data = await response.json();
+
+      groups = Array.isArray(data.results)
+        ? data.results
+        : [];
+
+      groupFilter.innerHTML =
+        '<option value="">كل المجموعات</option>';
+
+      groups.forEach(group => {
+        const option = document.createElement('option');
+
+        option.value = group;
+        option.textContent = group;
+
+        groupFilter.appendChild(option);
+      });
+
+    } catch (error) {
+      console.error('Error loading groups:', error);
+
+      groupFilter.innerHTML =
+        '<option value="">تعذر تحميل المجموعات</option>';
+    }
+  }
+
   function renderCategoriesTable(list) {
     const tbody = document.getElementById('categoriesTableBody');
-    if (!tbody) return;
-    
+
     tbody.innerHTML = '';
 
     if (list.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="4" class="text-center text-muted py-4">لا توجد تصنيفات</td></tr>`;
+      tbody.innerHTML =
+        `<tr>
+          <td colspan="2" class="text-center text-muted py-4">
+            لا توجد تصنيفات
+          </td>
+        </tr>`;
+
       return;
     }
 
     list.forEach((categoryName, index) => {
-      tbody.innerHTML += `
-        <tr>
-          <td>${index + 1}</td>
-          <td class="fw-semibold">${categoryName}</td>
-          <td><span class="badge bg-light text-dark border">تصنيف مسجل</span></td>
-          <td class="text-center">
-            <span class="badge bg-success-subtle text-success">متوفر</span>
-          </td>
-        </tr>
-      `;
+      const row = document.createElement('tr');
+
+      const numberCell = document.createElement('td');
+      numberCell.textContent = index + 1;
+
+      const nameCell = document.createElement('td');
+      nameCell.className = 'fw-semibold';
+      nameCell.textContent = categoryName;
+
+      row.appendChild(numberCell);
+      row.appendChild(nameCell);
+
+      tbody.appendChild(row);
     });
   }
 
-  // تشغيل الدوال عند فتح الصفحة
+  function filterCategories() {
+    const searchValue =
+      document
+        .getElementById('categorySearchInput')
+        .value
+        .trim()
+        .toLowerCase();
+
+    const filtered = categories.filter(category =>
+      category.toLowerCase().includes(searchValue)
+    );
+
+    renderCategoriesTable(filtered);
+  }
+
+  document
+    .getElementById('groupFilter')
+    .addEventListener('change', function () {
+      document.getElementById('categorySearchInput').value = '';
+      fetchCategoriesData(this.value);
+    });
+
+  document
+    .getElementById('categorySearchInput')
+    .addEventListener('input', filterCategories);
+
   fetchGroupsData();
   fetchCategoriesData();
+
+  function logout() {
+    localStorage.removeItem('adminToken');
+    alert('تم تسجيل الخروج بنجاح');
+  }
 </script>
 </body>
 </html>
