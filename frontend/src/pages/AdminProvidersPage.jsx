@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { apiRequest } from '../services/api';
+import './AdminProvidersPage.css';
 
 export default function AdminProvidersPage() {
   const [providers, setProviders] = useState([]);
@@ -7,6 +8,8 @@ export default function AdminProvidersPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [groupOptions, setGroupOptions] = useState([]);
+const [categoryOptions, setCategoryOptions] = useState([]);
 
   const [editId, setEditId] = useState(null);
 
@@ -47,11 +50,74 @@ export default function AdminProvidersPage() {
       setLoading(false);
     }
   };
+  const fetchGroups = async () => {
+  try {
+    const data = await apiRequest('/groups');
+    setGroupOptions(data.results || []);
+  } catch (err) {
+    console.error('خطأ أثناء تحميل المجموعات:', err);
+  }
+};
+const fetchCategoriesForGroups = async (groupsText) => {
+  const selectedGroups = groupsText
+    .split(',')
+    .map((g) => g.trim())
+    .filter(Boolean);
 
+  if (selectedGroups.length === 0) {
+    setCategoryOptions([]);
+
+    setFormData((prev) => ({
+      ...prev,
+      categories: ''
+    }));
+
+    return;
+  }
+
+  try {
+    const responses = await Promise.all(
+      selectedGroups.map((group) =>
+        apiRequest(`/categories?group=${encodeURIComponent(group)}`)
+      )
+    );
+
+    const allCategories = responses.flatMap(
+      (data) => data.results || []
+    );
+
+    const uniqueCategories = [...new Set(allCategories)];
+
+    setCategoryOptions(uniqueCategories);
+
+    // الاحتفاظ فقط بالتصنيفات التي ما زالت تابعة للمجموعات المختارة
+    setFormData((prev) => {
+      const currentCategories = prev.categories
+        .split(',')
+        .map((c) => c.trim())
+        .filter(Boolean);
+
+      const validCategories = currentCategories.filter((category) =>
+        uniqueCategories.includes(category)
+      );
+
+      return {
+        ...prev,
+        categories: validCategories.join(', ')
+      };
+    });
+  } catch (err) {
+    console.error('خطأ أثناء تحميل التصنيفات:', err);
+    setCategoryOptions([]);
+  }
+};
   useEffect(() => {
-    fetchProviders();
-  }, []);
-
+  fetchProviders();
+  fetchGroups();
+}, []);
+useEffect(() => {
+  fetchCategoriesForGroups(formData.groups);
+}, [formData.groups]);
   // 2. إرسال النموذج (POST / PUT) مع JSON.stringify والـ Validation
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -146,7 +212,7 @@ export default function AdminProvidersPage() {
   };
 
   return (
-    <div className="p-4" dir="rtl">
+    <div className="admin-providers-page" dir="rtl">
       <h3 className="mb-3 fw-bold text-dark">إدارة مقدمي الخدمات</h3>
 
       {/* رسائل التنبيه والنجاح */}
@@ -193,27 +259,91 @@ export default function AdminProvidersPage() {
             />
           </div>
           <div className="col-md-4">
-            <label className="form-label small fw-semibold">التصنيفات (Categories)</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="صيدليات, أطباء"
-              disabled={saving}
-              value={formData.categories}
-              onChange={(e) => setFormData({ ...formData, categories: e.target.value })}
-            />
-          </div>
-          <div className="col-md-4">
-            <label className="form-label small fw-semibold">المجموعات (Groups)</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="الخدمات الطبية"
-              disabled={saving}
-              value={formData.groups}
-              onChange={(e) => setFormData({ ...formData, groups: e.target.value })}
-            />
-          </div>
+  <label className="form-label small fw-semibold">
+    التصنيفات (Categories)
+  </label>
+
+  <select
+    multiple
+    className="form-control"
+    disabled={saving || !formData.groups}
+    value={
+      formData.categories
+        ? formData.categories
+            .split(',')
+            .map((c) => c.trim())
+            .filter(Boolean)
+        : []
+    }
+    onChange={(e) => {
+      const selectedCategories = Array.from(
+        e.target.selectedOptions,
+        (option) => option.value
+      );
+
+      setFormData({
+        ...formData,
+        categories: selectedCategories.join(', ')
+      });
+    }}
+  >
+    {categoryOptions.map((category) => {
+      const categoryName =
+        typeof category === 'object'
+          ? category.name || category.title || ''
+          : category;
+
+      return (
+        <option key={categoryName} value={categoryName}>
+          {categoryName}
+        </option>
+      );
+    })}
+  </select>
+</div>
+         <div className="col-md-4">
+  <label className="form-label small fw-semibold">
+    المجموعات (Groups)
+  </label>
+
+  <select
+    multiple
+    className="form-control"
+    disabled={saving}
+    value={
+      formData.groups
+        ? formData.groups
+            .split(',')
+            .map((g) => g.trim())
+            .filter(Boolean)
+        : []
+    }
+    onChange={(e) => {
+      const selectedGroups = Array.from(
+        e.target.selectedOptions,
+        (option) => option.value
+      );
+
+      setFormData({
+        ...formData,
+        groups: selectedGroups.join(', ')
+      });
+    }}
+  >
+    {groupOptions.map((group) => {
+      const groupName =
+        typeof group === 'object'
+          ? group.name || group.title || ''
+          : group;
+
+      return (
+        <option key={groupName} value={groupName}>
+          {groupName}
+        </option>
+      );
+    })}
+  </select>
+</div>
           <div className="col-md-4">
             <label className="form-label small fw-semibold">الأسماء المستعارة (Aliases)</label>
             <input
