@@ -76,3 +76,30 @@
     text-align: center;
   }
 }
+
+.admin-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-user-name {
+  color: #e2e8f0;
+  font-size: 14px;
+}
+
+.admin-logout {
+  padding: 8px 16px;
+  border: 1px solid #94a3b8;
+  border-radius: 8px;
+  background: transparent;
+  color: #ffffff;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.admin-logout:hover {
+  background: #ffffff;
+  color: #0f172a;
+}

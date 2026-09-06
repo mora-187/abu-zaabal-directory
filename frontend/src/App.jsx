@@ -11,6 +11,8 @@ import LoginPage from './pages/LoginPage';
 import AdminProvidersPage from './pages/AdminProvidersPage';
 import AdminCategoriesPage from './pages/AdminCategoriesPage';
 import NotFoundPage from './pages/NotFoundPage';
+import ProtectedRoute from './components/ProtectedRoute';
+
 
 function App() {
   return (
@@ -24,8 +26,14 @@ function App() {
 
       <Route path="/login" element={<LoginPage />} />
 
-      <Route path="/admin" element={<AdminLayout />}>
-        <Route path="providers" element={<AdminProvidersPage />} />
+<Route
+  path="/admin"
+  element={
+    <ProtectedRoute>
+      <AdminLayout />
+    </ProtectedRoute>
+  }
+>        <Route path="providers" element={<AdminProvidersPage />} />
         <Route path="categories" element={<AdminCategoriesPage />} />
       </Route>
 
