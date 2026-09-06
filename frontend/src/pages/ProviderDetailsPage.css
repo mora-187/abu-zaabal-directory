@@ -1,0 +1,138 @@
+.provider-details-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px 20px 60px;
+  direction: rtl;
+  color: #1f2937;
+  font-family: inherit;
+}
+
+.details-box {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+}
+
+.back-link {
+  display: inline-block;
+  background: #ffffff;
+  color: #4b5563;
+  border: 1px solid #d1d5db;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  margin-bottom: 24px;
+  transition: all 0.15s ease;
+}
+
+.back-link:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.details-title {
+  color: #173a5e;
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0 0 8px;
+}
+
+.details-subtitle {
+  color: #149a9a;
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 24px;
+}
+
+.details-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.details-row:last-child {
+  border-bottom: none;
+}
+
+.details-label {
+  font-weight: 700;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.details-value {
+  color: #111827;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.details-actions {
+  margin-top: 32px;
+  display: flex;
+  gap: 12px;
+}
+
+.btn-details-call {
+  flex: 1;
+  background: #149a9a;
+  color: #ffffff;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn-details-call:hover {
+  background: #0e7c7c;
+}
+
+.btn-details-copy {
+  flex: 1;
+  background: #ffffff;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-details-copy:hover {
+  background: #f9fafb;
+}
+
+.state-message {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 16px;
+  color: #6b7280;
+}
+
+.state-error {
+  color: #b91c1c;
+  background: #fef2f2;
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid #fecaca;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .details-box {
+    padding: 20px;
+  }
+  .details-actions {
+    flex-direction: column;
+  }
+}
