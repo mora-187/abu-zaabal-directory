@@ -1,7 +1,16 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import './AdminLayout.css';
 
+
 function AdminLayout() {
+    const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login', { replace: true });
+  };
   return (
     <div className="admin-layout" dir="rtl">
       <header className="admin-header">
@@ -27,6 +36,17 @@ function AdminLayout() {
               التصنيفات
             </NavLink>
           </nav>
+                    <div className="admin-user">
+            {user && <span className="admin-user-name">{user.name}</span>}
+
+            <button
+              className="admin-logout"
+              type="button"
+              onClick={handleLogout}
+            >
+              تسجيل الخروج
+            </button>
+          </div>
         </div>
       </header>
 
