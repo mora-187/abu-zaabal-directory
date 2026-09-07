@@ -536,3 +536,91 @@
         transform: none;
     }
 }
+
+.provider-phone-actions {
+    display: grid;
+
+    .provider-phone-actions {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.provider-phone-actions .provider-phone-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 9px 10px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition:
+        transform 0.15s ease,
+        opacity 0.15s ease;
+}
+
+.provider-phone-actions .provider-phone-button:hover {
+    transform: translateY(-1px);
+}
+
+/* اتصال */
+.provider-call-button {
+    background: #149a9a;
+    color: #ffffff;
+    border: 1px solid #149a9a;
+}
+
+/* واتساب */
+.provider-whatsapp-button {
+    background: #25d366;
+    color: #ffffff;
+    border: 1px solid #25d366;
+}
+
+/* نسخ */
+.provider-copy-button {
+    background: #ffffff;
+    color: #173a5e;
+    border: 1px solid #cbd5e1;
+}
+
+.provider-copy-button:hover {
+    background: #f8fafc;
+}
+
+@media (max-width: 650px) {
+    .provider-phone-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .provider-phone-actions .provider-phone-button {
+        width: 100%;
+    }
+}
+
+@media (min-width: 651px) {
+    .provider-phone-actions {
+        display: grid !important;
+        grid-template-columns: 1.3fr 0.8fr 1fr !important;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .provider-phone-actions .provider-phone-button {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+}
