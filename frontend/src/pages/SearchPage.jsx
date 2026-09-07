@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { apiRequest } from '../services/api';
 import './SearchPage.css';
 function SearchPage() {
+  const [copiedPhone, setCopiedPhone] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState(
     searchParams.get('search') || ''
@@ -87,7 +88,7 @@ function SearchPage() {
       }
 
       params.append('page', String(targetPage));
-      params.append('limit', '10');
+      params.append('limit', '9');
 
       const data = await apiRequest(
         `/providers/search?${params.toString()}`
@@ -154,6 +155,35 @@ function SearchPage() {
     }
 
   }, []);
+
+  const getWhatsAppNumber = (phone) => {
+    const cleanPhone = String(phone).replace(/\D/g, '');
+
+    if (cleanPhone.startsWith('01')) {
+      return `20${cleanPhone.slice(1)}`;
+    }
+
+    return cleanPhone;
+  };
+
+  const handleCopyPhone = async (phone) => {
+    try {
+      await navigator.clipboard.writeText(phone);
+
+      setCopiedPhone(phone);
+
+      setTimeout(() => {
+        setCopiedPhone('');
+      }, 1500);
+    } catch (err) {
+      console.error('فشل نسخ رقم الهاتف:', err);
+    }
+  };
+
+  const isEgyptianMobile = (phone) => {
+    const cleanPhone = String(phone).replace(/\D/g, '');
+    return /^01[0125]\d{8}$/.test(cleanPhone);
+  };
   return (
     <main className="page-container search-page">
       <div className="search-header">
@@ -245,25 +275,25 @@ function SearchPage() {
       )}
 
       {!loading &&
-  !error &&
-  results.length === 0 &&
-  (search || group || category) && (
-    <div className="search-state-card search-empty-card">
-      <strong>لا توجد نتائج مطابقة</strong>
+        !error &&
+        results.length === 0 &&
+        (search || group || category) && (
+          <div className="search-state-card search-empty-card">
+            <strong>لا توجد نتائج مطابقة</strong>
 
-      <p>
-        جرّب تغيير كلمة البحث أو اختيار مجموعة أو تصنيف مختلف.
-      </p>
+            <p>
+              جرّب تغيير كلمة البحث أو اختيار مجموعة أو تصنيف مختلف.
+            </p>
 
-      <button
-        className="state-action-button empty-reset-button"
-        type="button"
-        onClick={handleReset}
-      >
-        مسح الفلاتر
-      </button>
-    </div>
-  )}
+            <button
+              className="state-action-button empty-reset-button"
+              type="button"
+              onClick={handleReset}
+            >
+              مسح الفلاتر
+            </button>
+          </div>
+        )}
 
       {!loading && !error && total > 0 && (
         <p>
@@ -306,46 +336,73 @@ function SearchPage() {
 
             {provider.phones?.length > 0 && (
               <div className="provider-card-phones">
-                {provider.phones.map((phone) => (
-                  <a
-                    key={phone}
-                    href={'tel:' + phone}
-                    className="provider-phone-button"
-                  >
-                    اتصال: {phone}
-                  </a>
-                ))}
+                {provider.phones.map((phone) => {
+                  const whatsappNumber = getWhatsAppNumber(phone);
+                  const showWhatsApp = isEgyptianMobile(phone);
+
+                  return (
+                    <div className="provider-phone-actions" key={phone}>
+                      <a
+                        href={`tel:${phone}`}
+                        className="provider-phone-button provider-call-button"
+                      >
+                        اتصال: {phone}
+                      </a>
+
+                      {showWhatsApp && (
+                        <a
+                          href={'https://wa.me/${whatsappNumber}'}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="provider-phone-button provider-whatsapp-button"
+                        >
+                          واتساب
+                        </a>
+                      )
+                      }
+                      <button
+                        type="button"
+                        className="provider-phone-button provider-copy-button"
+                        onClick={() => handleCopyPhone(phone)}
+                      >
+                        {copiedPhone === phone ? '✓ تم النسخ' : 'نسخ الرقم'}
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </article>
         ))}
       </div>
-      {!loading && !error && pages > 1 && (
-        <div className="search-pagination">
-          <button
-            className="pagination-button"
-            type="button"
-            onClick={() => handleSearch(page - 1)}
-            disabled={page <= 1}
-          >
-            السابق
-          </button>
+      {
+        !loading && !error && pages > 1 && (
+          <div className="search-pagination">
+            <button
+              className="pagination-button"
+              type="button"
+              onClick={() => handleSearch(page - 1)}
+              disabled={page <= 1}
+            >
+              السابق
+            </button>
 
-          <span className="pagination-info">
-            الصفحة {page} من {pages}
-          </span>
+            <span className="pagination-info">
+              الصفحة {page} من {pages}
+            </span>
 
-          <button
-            className="pagination-button"
-            type="button"
-            onClick={() => handleSearch(page + 1)}
-            disabled={page >= pages}
-          >
-            التالي
-          </button>
-        </div>
-      )}
-    </main>
+            <button
+              className="pagination-button"
+              type="button"
+              onClick={() => handleSearch(page + 1)}
+              disabled={page >= pages}
+            >
+              التالي
+            </button>
+          </div>
+        )
+      }
+    </main >
   );
 }
 
