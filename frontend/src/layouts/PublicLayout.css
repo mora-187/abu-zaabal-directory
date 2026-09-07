@@ -2,63 +2,165 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: #07111f;
+  color: #f8fafc;
 }
 
+/* =========================
+   HEADER
+========================= */
+
 .site-header {
-  background: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 100;
+
+  background: rgba(7, 17, 31, 0.96);
+  border-bottom: 1px solid #1d2c43;
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .site-header-inner {
-  max-width: 1100px;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 16px 20px;
+
+  min-height: 66px;
+  padding: 0 20px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
+  gap: 24px;
 }
 
+/* =========================
+   LOGO
+========================= */
+
 .site-logo {
-  font-size: 20px;
-  font-weight: 700;
-  color: #0f172a;
+  color: #ffffff;
   text-decoration: none;
+
+  font-size: 20px;
+  font-weight: 900;
+
+  white-space: nowrap;
+
+  transition: color 0.2s ease;
 }
+
+.site-logo:hover {
+  color: #38bdf8;
+}
+
+/* =========================
+   NAVIGATION
+========================= */
 
 .site-nav {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 7px;
   flex-wrap: wrap;
 }
 
 .site-nav a {
-  padding: 8px 14px;
+  padding: 9px 14px;
+
+  border: 1px solid transparent;
   border-radius: 8px;
-  color: #475569;
+
+  color: #94a3b8;
   text-decoration: none;
-  font-size: 15px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .site-nav a:hover {
-  background: #f1f5f9;
-  color: #0f172a;
+  color: #ffffff;
+  background: #111d31;
+  border-color: #26364f;
 }
 
 .site-nav a.active {
-  background: #0f172a;
   color: #ffffff;
+  background: #0b3150;
+  border-color: #0ea5e9;
 }
+
+/* =========================
+   PAGE CONTENT
+========================= */
+
+.public-layout > main,
+.public-layout > .public-content {
+  flex: 1;
+}
+
+/* =========================
+   FOOTER
+========================= */
 
 .site-footer {
   margin-top: auto;
-  border-top: 1px solid #e2e8f0;
-  padding: 20px;
+
+  padding: 24px 20px;
+
+  background: #0d182b;
+  border-top: 1px solid #253553;
+
+  color: #718096;
   text-align: center;
-  color: #64748b;
-  font-size: 14px;
+
+  font-size: 13px;
+}
+
+.site-footer strong {
+  color: #cbd5e1;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 650px) {
+  .site-header-inner {
+    min-height: auto;
+    padding: 14px;
+
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .site-logo {
+    font-size: 19px;
+  }
+
+  .site-nav {
+    width: 100%;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .site-nav a {
+    flex: 1;
+    min-width: 85px;
+
+    padding: 9px 8px;
+
+    text-align: center;
+    font-size: 13px;
+  }
+
+  .site-footer {
+    padding: 20px 14px;
+  }
 }
