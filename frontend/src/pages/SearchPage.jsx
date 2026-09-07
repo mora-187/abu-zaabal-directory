@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { apiRequest } from '../services/api';
 import './SearchPage.css';
 function SearchPage() {
+  const [copiedPhone, setCopiedPhone] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState(
     searchParams.get('search') || ''
@@ -168,6 +169,12 @@ function SearchPage() {
   const handleCopyPhone = async (phone) => {
     try {
       await navigator.clipboard.writeText(phone);
+
+      setCopiedPhone(phone);
+
+      setTimeout(() => {
+        setCopiedPhone('');
+      }, 1500);
     } catch (err) {
       console.error('فشل نسخ رقم الهاتف:', err);
     }
@@ -358,7 +365,7 @@ function SearchPage() {
                         className="provider-phone-button provider-copy-button"
                         onClick={() => handleCopyPhone(phone)}
                       >
-                        نسخ الرقم
+                        {copiedPhone === phone ? '✓ تم النسخ' : 'نسخ الرقم'}
                       </button>
                     </div>
                   );

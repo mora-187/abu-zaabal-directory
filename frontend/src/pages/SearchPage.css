@@ -537,19 +537,18 @@
     }
 }
 
+
+
 .provider-phone-actions {
     display: grid;
-
-    .provider-phone-actions {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-        gap: 8px;
-        margin-top: 10px;
-    }
-
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
     gap: 8px;
     margin-top: 10px;
+    width: 100%;
 }
+
+
+
 
 .provider-phone-actions .provider-phone-button {
     display: flex;
