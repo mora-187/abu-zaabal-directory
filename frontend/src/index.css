@@ -91,3 +91,51 @@ img {
     width: min(100% - 24px, var(--container-width));
   }
 }
+/* =========================
+   PUBLIC THEME VARIABLES
+========================= */
+
+:root,
+[data-theme="light"] {
+  --public-bg: #f8fafc;
+  --public-bg-secondary: #ffffff;
+  --public-card: #ffffff;
+  --public-card-hover: #f1f5f9;
+
+  --public-text: #0f172a;
+  --public-text-muted: #64748b;
+
+  --public-border: #e2e8f0;
+
+  --public-header: rgba(255, 255, 255, 0.96);
+  --public-footer: #f1f5f9;
+
+  --public-accent: #0ea5e9;
+  --public-accent-hover: #0284c7;
+
+  --public-input: #ffffff;
+
+  --public-shadow: rgba(15, 23, 42, 0.08);
+}
+
+[data-theme="dark"] {
+  --public-bg: #07111f;
+  --public-bg-secondary: #0d182b;
+  --public-card: #111d31;
+  --public-card-hover: #14233b;
+
+  --public-text: #f8fafc;
+  --public-text-muted: #94a3b8;
+
+  --public-border: #26364f;
+
+  --public-header: rgba(7, 17, 31, 0.96);
+  --public-footer: #0d182b;
+
+  --public-accent: #0ea5e9;
+  --public-accent-hover: #0284c7;
+
+  --public-input: #111d31;
+
+  --public-shadow: rgba(0, 0, 0, 0.22);
+}
