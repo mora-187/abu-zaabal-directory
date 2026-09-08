@@ -127,32 +127,38 @@ function SearchPage() {
       setLoading(false);
     }
   };
+  const loadDefaultResults = async () => {
+    setLoading(true);
+    setError('');
+
+    try {
+      const data = await apiRequest('/providers/search?page=1&limit=9');
+
+      setResults(data.results || []);
+      setPage(Number(data.page) || 1);
+      setPages(Number(data.pages) || 1);
+      setTotal(Number(data.total) || 0);
+    } catch (err) {
+      setError(err.message || 'حدث خطأ أثناء تحميل مقدمي الخدمات');
+    } finally {
+      setLoading(false);
+    }
+  };
   const handleReset = () => {
     setSearch('');
     setGroup('');
     setCategory('');
-
     setCategories([]);
-    setResults([]);
-
     setPage(1);
-    setPages(1);
-    setTotal(0);
-
     setError('');
-
     setSearchParams({});
+
+    loadDefaultResults();
   };
   useEffect(() => {
-    const hasUrlParams =
-      searchParams.has('search') ||
-      searchParams.has('group') ||
-      searchParams.has('category') ||
-      searchParams.has('page');
 
-    if (hasUrlParams) {
-      handleSearch(initialPage);
-    }
+    handleSearch(initialPage);
+
 
   }, []);
 
@@ -351,7 +357,7 @@ function SearchPage() {
 
                       {showWhatsApp && (
                         <a
-                          href={'https://wa.me/${whatsappNumber}'}
+                          href={`https://wa.me/${whatsappNumber}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="provider-phone-button provider-whatsapp-button"

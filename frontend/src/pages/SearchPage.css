@@ -1,5 +1,8 @@
 .search-page {
     direction: rtl;
+    min-height: 100vh;
+    background: transparent;
+    color: var(--public-text);
 }
 
 .search-header {
@@ -10,11 +13,12 @@
 .search-header h1 {
     margin-bottom: 8px;
     font-size: 32px;
+    color: var(--public-text);
 }
 
 .search-header p {
     margin: 0;
-    color: #667085;
+    color: var(--public-text-muted);
 }
 
 .search-controls {
@@ -30,10 +34,29 @@
     width: 100%;
     min-height: 46px;
     padding: 10px 14px;
-    border: 1px solid #d0d5dd;
+
+    border: 1px solid var(--public-border);
     border-radius: 8px;
-    background: #ffffff;
+
+    background: var(--public-card);
+    color: var(--public-text);
+
     font: inherit;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.search-input::placeholder {
+    color: var(--public-text-muted);
+}
+
+.search-input:focus,
+.search-select:focus {
+    outline: none;
+    border-color: var(--public-accent);
 }
 
 .search-input:focus,
@@ -57,15 +80,55 @@
 }
 
 .search-button {
-    border: 1px solid #149a9a;
-    background: #149a9a;
+    min-height: 46px;
+    padding: 10px 18px;
+
+    border: 1px solid var(--public-accent);
+    border-radius: 8px;
+
+    background: var(--public-accent);
     color: #ffffff;
+
+    font: inherit;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.search-button:hover {
+    background: var(--public-accent-hover);
+    border-color: var(--public-accent-hover);
+    transform: translateY(-1px);
 }
 
 .reset-button {
-    border: 1px solid #d0d5dd;
-    background: #ffffff;
-    color: #344054;
+    min-height: 46px;
+    padding: 10px 16px;
+
+    border: 1px solid var(--public-border);
+    border-radius: 8px;
+
+    background: var(--public-card);
+    color: var(--public-text);
+
+    font: inherit;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.reset-button:hover {
+    background: var(--public-card-hover);
+    border-color: var(--public-accent);
 }
 
 .search-button:hover:not(:disabled),
@@ -127,9 +190,9 @@
     flex-direction: column;
     gap: 14px;
     padding: 20px;
-    border: 1px solid #e4e7ec;
+    border: 1px solid var(--public-border);
     border-radius: 12px;
-    background: #ffffff;
+    background: var(--public-card);
     min-width: 0;
 
     animation: providerCardIn 0.35s ease both;
@@ -138,6 +201,11 @@
         transform 0.2s ease,
         box-shadow 0.2s ease,
         border-color 0.2s ease;
+}
+
+.provider-card h3 {
+    margin: 0;
+    color: var(--public-text);
 }
 
 .provider-card:hover {
@@ -164,14 +232,14 @@
     max-width: 100%;
     padding: 5px 10px;
     border-radius: 20px;
-    background: #e8f7f7;
-    color: #147d7e;
+    background: rgba(14, 165, 233, 0.12);
+    color: var(--public-accent);
     font-size: 13px;
 }
 
 .provider-card-info {
     margin: 0;
-    color: #667085;
+    color: var(--public-text-muted);
     line-height: 1.7;
     overflow-wrap: anywhere;
 }
@@ -236,6 +304,7 @@
         padding: 16px;
     }
 
+
     .provider-phone-button {
         width: 100%;
     }
@@ -263,11 +332,11 @@
     min-height: 42px;
     padding: 8px 16px;
 
-    border: 1px solid #149a9a;
+    border: 1px solid var(--public-border);
     border-radius: 8px;
 
-    background: #ffffff;
-    color: #147d7e;
+    background: var(--public-card);
+    color: var(--public-accent);
 
     font: inherit;
     cursor: pointer;
@@ -279,7 +348,8 @@
 }
 
 .pagination-button:hover:not(:disabled) {
-    background: #149a9a;
+    background: var(--public-card-hover);
+    border-color: var(--public-accent);
     color: #ffffff;
     transform: translateY(-2px);
 }
@@ -332,10 +402,11 @@
     margin: 36px auto;
     padding: 28px;
 
-    border: 1px solid #e4e7ec;
+    border: 1px solid var(--public-border);
     border-radius: 12px;
 
-    background: #ffffff;
+    background: var(--public-card);
+    color: var(--public-text-muted);
 
     text-align: center;
 
@@ -343,7 +414,7 @@
 }
 
 .search-state-card strong {
-    color: #18212b;
+    color: var(--public-text);
     font-size: 18px;
 }
 
@@ -356,8 +427,8 @@
     width: 34px;
     height: 34px;
 
-    border: 3px solid #e4e7ec;
-    border-top-color: #149a9a;
+    border: 3px solid var(--public-border);
+    border-top-color: var(--public-accent);
     border-radius: 50%;
 
     animation: searchLoaderSpin 0.8s linear infinite;
@@ -392,12 +463,12 @@
 }
 
 .search-error-card {
-    border-color: #fecdca;
-    background: #fffafa;
+    border-color: #fecaca;
+    background: rgba(220, 38, 38, 0.08);
 }
 
 .search-error-card strong {
-    color: #b42318;
+    color: #ef4444;
 }
 
 .state-action-button {
@@ -429,21 +500,22 @@
 }
 
 .search-empty-card {
-    border-color: #d0d5dd;
-    background: #ffffff;
+    border-color: var(--public-border);
+    background: var(--public-card);
 }
 
 .search-empty-card strong {
-    color: #344054;
+    color: var(--public-text);
 }
 
 .empty-reset-button {
-    background: #ffffff;
-    color: #147d7e;
+    background: var(--public-card);
+    color: var(--public-accent);
+    border: 1px solid var(--public-border);
 }
 
 .empty-reset-button:hover:not(:disabled) {
-    background: #149a9a;
+    background: var(--public-accent);
     color: #ffffff;
 }
 
@@ -622,4 +694,9 @@
         min-width: 0;
         box-sizing: border-box;
     }
+}
+
+.search-page .provider-card h3 {
+    margin: 0;
+    color: var(--public-text);
 }
