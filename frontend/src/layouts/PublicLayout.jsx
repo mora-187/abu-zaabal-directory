@@ -1,7 +1,30 @@
-import { Outlet, Link, NavLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 import './PublicLayout.css';
 
 function PublicLayout() {
+const [theme, setTheme] = useState(() => {
+  const savedTheme = localStorage.getItem('theme');
+
+  if (savedTheme) {
+    return savedTheme;
+  }
+
+  return window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light';
+});
+
+useEffect(() => {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('theme', theme);
+}, [theme]);
+
+const toggleTheme = () => {
+  setTheme((currentTheme) =>
+    currentTheme === 'dark' ? 'light' : 'dark'
+  );
+};
   return (
     <div className="public-layout">
       <header className="site-header">
@@ -21,6 +44,18 @@ function PublicLayout() {
               مقدمو الخدمات
             </NavLink>
           </nav>
+          <button
+  type="button"
+  className="theme-toggle"
+  onClick={toggleTheme}
+  aria-label={
+    theme === 'dark'
+      ? 'التبديل إلى الوضع الفاتح'
+      : 'التبديل إلى الوضع الداكن'
+  }
+>
+  {theme === 'dark' ? '☀️' : '🌙'}
+</button>
         </div>
       </header>
 

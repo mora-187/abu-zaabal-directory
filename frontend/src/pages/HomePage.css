@@ -5,8 +5,8 @@
 .home-page {
   min-height: 100vh;
   direction: rtl;
-  background-color: #07111f;
-  color: #f8fafc;
+  background-color: var(--public-bg);
+  color: var(--public-text);
 
   background-image:
     linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
@@ -68,8 +68,7 @@
 
 .home-hero h1 {
   margin: 0;
-
-  color: #ffffff;
+color: var(--public-text);
   font-size: clamp(34px, 5vw, 54px);
   line-height: 1.25;
   font-weight: 900;
@@ -102,11 +101,11 @@
 
   padding: 8px;
 
-  background: #111d31;
-  border: 1px solid #26364f;
+  background: var(--public-card);
+border: 1px solid var(--public-border);
+box-shadow: 0 16px 40px var(--public-shadow);
   border-radius: 14px;
 
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
 }
 
 .home-search input {
@@ -120,18 +119,17 @@
   border-radius: 10px;
 
   background: transparent;
-  color: #f8fafc;
-
+color: var(--public-text);
   font-family: inherit;
   font-size: 15px;
 }
 
 .home-search input::placeholder {
-  color: #64748b;
+color: var(--public-text-muted);
 }
 
 .home-search input:focus {
-  background: rgba(255, 255, 255, 0.025);
+background: var(--public-card-hover);
 }
 
 .home-search button {
@@ -178,11 +176,10 @@
 .home-features span {
   padding: 6px 12px;
 
-  background: #111d31;
-  border: 1px solid #26364f;
+  background: var(--public-card);
+  border: 1px solid var(--public-border);
+  color: var(--public-text-muted);
   border-radius: 999px;
-
-  color: #94a3b8;
   font-size: 12px;
   font-weight: 600;
 }
@@ -225,7 +222,7 @@
 .home-section-heading h2 {
   margin: 0;
 
-  color: #ffffff;
+color: var(--public-text);
   font-size: 28px;
   font-weight: 900;
 }
@@ -271,8 +268,8 @@
   gap: 15px;
   padding: 18px;
 
-  background: #111d31;
-  border: 1px solid #26364f;
+  background: var(--public-card);
+border: 1px solid var(--public-border);
   border-radius: 12px;
 
   color: inherit;
@@ -288,10 +285,9 @@
 .group-card:hover {
   transform: translateY(-3px);
 
-  background: #14233b;
-  border-color: #0ea5e9;
-
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+  background: var(--public-card-hover);
+border-color: var(--public-accent);
+box-shadow: 0 12px 28px var(--public-shadow);
 }
 
 .group-card-icon {
@@ -325,18 +321,18 @@
 }
 
 .group-card-content strong {
-  color: #f8fafc;
+  color: var(--public-text);
   font-size: 15px;
   line-height: 1.5;
 }
 
 .group-card-content span {
-  color: #718096;
+color: var(--public-text-muted);
   font-size: 12px;
 }
 
 .group-card-arrow {
-  color: #0ea5e9;
+  color: var(--public-accent);
   font-size: 20px;
 
   transition: transform 0.2s ease;
@@ -384,22 +380,22 @@
 
   gap: 25px;
 
-  background: #132039;
-  border: 1px solid #2a3b58;
+  background: var(--public-card);
+border: 1px solid var(--public-border);
   border-radius: 14px;
 }
 
 .home-cta h2 {
   margin: 0;
 
-  color: #ffffff;
+  color: var(--public-text);
   font-size: 21px;
 }
 
 .home-cta p {
   margin: 7px 0 0;
 
-  color: #8492a6;
+color: var(--public-text-muted);
   font-size: 13px;
 }
 
