@@ -1,0 +1,136 @@
+.provider-details-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px 20px 60px;
+  direction: rtl;
+  color: var(--public-text);
+  font-family: inherit;
+}
+
+.details-box {
+  background: var(--public-card);
+  border: 1px solid var(--public-border);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 6px 20px var(--public-shadow);
+}
+
+.back-link {
+  display: inline-block;
+  background: var(--public-card);
+  color: var(--public-text);
+  border: 1px solid var(--public-border);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  margin-bottom: 24px;
+  transition: all 0.15s ease;
+}
+
+.back-link:hover {
+  background: var(--public-card-hover);
+  border-color: var(--public-accent);
+}
+.details-title {
+  color: var(--public-text);
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0 0 8px;
+}
+.details-subtitle {
+  color: var(--public-accent);
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 24px;
+}
+
+.details-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--public-border);
+}
+
+.details-label {
+  font-weight: 700;
+  color: var(--public-text-muted);
+  font-size: 14px;
+}
+
+.details-value {
+  color: var(--public-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.details-row:last-child {
+  border-bottom: none;
+}
+.details-actions {
+  margin-top: 32px;
+  display: flex;
+  gap: 12px;
+}
+
+.btn-details-call {
+  flex: 1;
+  background: #149a9a;
+  color: #ffffff;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn-details-call:hover {
+  background: #0e7c7c;
+}
+
+.btn-details-copy {
+  flex: 1;
+  background: var(--public-card);
+  color: var(--public-text);
+  border: 1px solid var(--public-border);
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-details-copy:hover {
+  background: var(--public-card-hover);
+  border-color: var(--public-accent);
+}
+
+.state-message {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 16px;
+  color: var(--public-text-muted);
+}
+
+.state-error {
+  color: #b91c1c;
+  background: #fef2f2;
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid #fecaca;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .details-box {
+    padding: 20px;
+  }
+  .details-actions {
+    flex-direction: column;
+  }
+}

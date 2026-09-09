@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap');
+
+:root {
+  font-family: 'Cairo', sans-serif;
+
+  --color-primary: #173a5e;
+  --color-primary-dark: #112d4a;
+  --color-secondary: #149a9a;
+
+  --color-background: #f7f8fa;
+  --color-surface: #ffffff;
+
+  --color-text: #18212b;
+  --color-text-secondary: #667085;
+
+  --color-border: #e4e7ec;
+
+  --color-success: #168a4a;
+  --color-error: #d92d20;
+
+  --border-radius-sm: 6px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+
+  --container-width: 1200px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  direction: rtl;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+
+  background: var(--color-background);
+  color: var(--color-text);
+
+  font-family: 'Cairo', sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.page-container {
+  width: min(100% - 32px, var(--container-width));
+  margin-inline: auto;
+}
+
+.loading-state,
+.error-state,
+.empty-state {
+  padding: 32px;
+  text-align: center;
+}
+
+.error-state {
+  color: var(--color-error);
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    width: min(100% - 24px, var(--container-width));
+  }
+}
+/* =========================
+   PUBLIC THEME VARIABLES
+========================= */
+
+:root,
+[data-theme="light"] {
+  --public-bg: #f8fafc;
+  --public-bg-secondary: #ffffff;
+  --public-card: #ffffff;
+  --public-card-hover: #f1f5f9;
+
+  --public-text: #0f172a;
+  --public-text-muted: #64748b;
+
+  --public-border: #e2e8f0;
+
+  --public-header: rgba(255, 255, 255, 0.96);
+  --public-footer: #f1f5f9;
+
+  --public-accent: #0ea5e9;
+  --public-accent-hover: #0284c7;
+
+  --public-input: #ffffff;
+
+  --public-shadow: rgba(15, 23, 42, 0.08);
+}
+
+[data-theme="dark"] {
+  --public-bg: #07111f;
+  --public-bg-secondary: #0d182b;
+  --public-card: #111d31;
+  --public-card-hover: #14233b;
+
+  --public-text: #f8fafc;
+  --public-text-muted: #94a3b8;
+
+  --public-border: #26364f;
+
+  --public-header: rgba(7, 17, 31, 0.96);
+  --public-footer: #0d182b;
+
+  --public-accent: #0ea5e9;
+  --public-accent-hover: #0284c7;
+
+  --public-input: #111d31;
+
+  --public-shadow: rgba(0, 0, 0, 0.22);
+}
