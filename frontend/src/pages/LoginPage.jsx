@@ -11,6 +11,28 @@ function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [theme, setTheme] = useState(() => {
+  const savedTheme = localStorage.getItem('theme');
+
+  if (savedTheme) {
+    return savedTheme;
+  }
+
+  return window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light';
+});
+
+useEffect(() => {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('theme', theme);
+}, [theme]);
+
+const toggleTheme = () => {
+  setTheme((currentTheme) =>
+    currentTheme === 'dark' ? 'light' : 'dark'
+  );
+};
 
   useEffect(() => {
     if (!authLoading && user && isAdmin) {
@@ -46,6 +68,18 @@ function LoginPage() {
 
   return (
     <div className="login-page" dir="rtl">
+       <button
+      type="button"
+      className="login-theme-toggle"
+      onClick={toggleTheme}
+      aria-label={
+        theme === 'dark'
+          ? 'التبديل إلى الوضع الفاتح'
+          : 'التبديل إلى الوضع الداكن'
+      }
+    >
+      {theme === 'dark' ? '☀️' : '🌙'}
+    </button>
       <div className="login-card">
         <h1>تسجيل الدخول</h1>
         <p className="login-subtitle">
