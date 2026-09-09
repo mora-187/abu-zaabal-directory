@@ -3,23 +3,23 @@
   margin: 0 auto;
   padding: 30px 20px 60px;
   direction: rtl;
-  color: #1f2937;
+  color: var(--public-text);
   font-family: inherit;
 }
 
 .details-box {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
+  background: var(--public-card);
+  border: 1px solid var(--public-border);
   border-radius: 16px;
   padding: 32px;
-  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 6px 20px var(--public-shadow);
 }
 
 .back-link {
   display: inline-block;
-  background: #ffffff;
-  color: #4b5563;
-  border: 1px solid #d1d5db;
+  background: var(--public-card);
+  color: var(--public-text);
+  border: 1px solid var(--public-border);
   padding: 8px 16px;
   border-radius: 8px;
   font-size: 13px;
@@ -30,19 +30,17 @@
 }
 
 .back-link:hover {
-  background: #f3f4f6;
-  border-color: #9ca3af;
+  background: var(--public-card-hover);
+  border-color: var(--public-accent);
 }
-
 .details-title {
-  color: #173a5e;
+  color: var(--public-text);
   font-size: 26px;
   font-weight: 800;
   margin: 0 0 8px;
 }
-
 .details-subtitle {
-  color: #149a9a;
+  color: var(--public-accent);
   font-weight: 700;
   font-size: 15px;
   margin-bottom: 24px;
@@ -53,25 +51,24 @@
   justify-content: space-between;
   align-items: center;
   padding: 14px 0;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--public-border);
+}
+
+.details-label {
+  font-weight: 700;
+  color: var(--public-text-muted);
+  font-size: 14px;
+}
+
+.details-value {
+  color: var(--public-text);
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .details-row:last-child {
   border-bottom: none;
 }
-
-.details-label {
-  font-weight: 700;
-  color: #6b7280;
-  font-size: 14px;
-}
-
-.details-value {
-  color: #111827;
-  font-size: 14px;
-  font-weight: 600;
-}
-
 .details-actions {
   margin-top: 32px;
   display: flex;
@@ -98,9 +95,9 @@
 
 .btn-details-copy {
   flex: 1;
-  background: #ffffff;
-  color: #374151;
-  border: 1px solid #d1d5db;
+  background: var(--public-card);
+  color: var(--public-text);
+  border: 1px solid var(--public-border);
   padding: 12px;
   border-radius: 8px;
   font-weight: 700;
@@ -109,14 +106,15 @@
 }
 
 .btn-details-copy:hover {
-  background: #f9fafb;
+  background: var(--public-card-hover);
+  border-color: var(--public-accent);
 }
 
 .state-message {
   text-align: center;
   padding: 60px 20px;
   font-size: 16px;
-  color: #6b7280;
+  color: var(--public-text-muted);
 }
 
 .state-error {
