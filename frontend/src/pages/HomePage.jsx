@@ -46,7 +46,7 @@ function HomePage() {
       <div className="home-hero-content">
 
         <span className="home-kicker">
-          دليل أبو زعبل المحلي
+          دليلي لخدمات أبو زعبل
         </span>
 
         <h1>
