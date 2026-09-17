@@ -43,6 +43,9 @@ const toggleTheme = () => {
             <NavLink to="/providers">
               مقدمو الخدمات
             </NavLink>
+            <NavLink to="/favorites">
+  المفضلة
+</NavLink>
           </nav>
           <button
   type="button"
@@ -62,7 +65,9 @@ const toggleTheme = () => {
       <Outlet />
 
       <footer className="site-footer">
-      Dalily ⭐
+     <p>© 2026 Dalily⭐. All Rights Reserved.</p>
+  <p>Developed by Omar Hisham & Team</p>
+      
    </footer>
     </div>
   );

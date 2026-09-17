@@ -362,6 +362,21 @@
   text-align: center;
 }
 
+.btn-reveal {
+  width: 100%;
+  cursor: pointer;
+}
+
+.btn-reveal:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.contact-error {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #dc2626;
+}
 
 /* =========================
    MOBILE

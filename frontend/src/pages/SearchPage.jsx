@@ -4,6 +4,9 @@ import { apiRequest } from '../services/api';
 import './SearchPage.css';
 function SearchPage() {
   const [copiedPhone, setCopiedPhone] = useState('');
+  const [revealedPhones, setRevealedPhones] = useState({});
+const [contactLoading, setContactLoading] = useState({});
+const [contactErrors, setContactErrors] = useState({});
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState(
     searchParams.get('search') || ''
@@ -30,6 +33,15 @@ function SearchPage() {
   const [page, setPage] = useState(initialPage);
   const [pages, setPages] = useState(1);
   const [total, setTotal] = useState(0);
+  const [favoriteIds, setFavoriteIds] = useState(() => {
+  try {
+    return JSON.parse(
+      localStorage.getItem('favoriteProviders') || '[]'
+    );
+  } catch {
+    return [];
+  }
+});
 
   useEffect(() => {
     const loadGroups = async () => {
@@ -161,8 +173,81 @@ function SearchPage() {
 
 
   }, []);
+  
+const handleRevealContact = async (providerId) => {
+  try {
+    setContactLoading((prev) => ({
+      ...prev,
+      [providerId]: true
+    }));
+
+    setContactErrors((prev) => ({
+      ...prev,
+      [providerId]: ''
+    }));
+
+    const data = await apiRequest(
+      `/providers/${providerId}/contact`
+    );
+
+    setRevealedPhones((prev) => ({
+      ...prev,
+      [providerId]: Array.isArray(data?.phones)
+        ? data.phones
+        : []
+    }));
+  } catch (err) {
+    console.error('فشل تحميل رقم الهاتف:', err);
+
+    setContactErrors((prev) => ({
+      ...prev,
+      [providerId]: 'تعذر تحميل رقم الهاتف.'
+    }));
+  } finally {
+    setContactLoading((prev) => ({
+      ...prev,
+      [providerId]: false
+    }));
+  }
+};
 
   const getWhatsAppNumber = (phone) => {
+    const handleRevealContact = async (providerId) => {
+  try {
+    setContactLoading((prev) => ({
+      ...prev,
+      [providerId]: true
+    }));
+
+    setContactErrors((prev) => ({
+      ...prev,
+      [providerId]: ''
+    }));
+
+    const data = await apiRequest(
+      `/providers/${providerId}/contact`
+    );
+
+    setRevealedPhones((prev) => ({
+      ...prev,
+      [providerId]: Array.isArray(data?.phones)
+        ? data.phones
+        : []
+    }));
+  } catch (err) {
+    console.error('فشل تحميل رقم الهاتف:', err);
+
+    setContactErrors((prev) => ({
+      ...prev,
+      [providerId]: 'تعذر تحميل رقم الهاتف.'
+    }));
+  } finally {
+    setContactLoading((prev) => ({
+      ...prev,
+      [providerId]: false
+    }));
+  }
+};
     const cleanPhone = String(phone).replace(/\D/g, '');
 
     if (cleanPhone.startsWith('01')) {
@@ -190,6 +275,27 @@ function SearchPage() {
     const cleanPhone = String(phone).replace(/\D/g, '');
     return /^01[0125]\d{8}$/.test(cleanPhone);
   };
+  const handleFavorite = (providerId) => {
+  let updatedFavorites;
+
+  if (favoriteIds.includes(providerId)) {
+    updatedFavorites = favoriteIds.filter(
+      (id) => id !== providerId
+    );
+  } else {
+    updatedFavorites = [
+      ...favoriteIds,
+      providerId
+    ];
+  }
+
+  localStorage.setItem(
+    'favoriteProviders',
+    JSON.stringify(updatedFavorites)
+  );
+
+  setFavoriteIds(updatedFavorites);
+};
   return (
     <main className="page-container search-page">
       <div className="search-header">
@@ -340,44 +446,92 @@ function SearchPage() {
               </p>
             )}
 
-            {provider.phones?.length > 0 && (
-              <div className="provider-card-phones">
-                {provider.phones.map((phone) => {
-                  const whatsappNumber = getWhatsAppNumber(phone);
-                  const showWhatsApp = isEgyptianMobile(phone);
+            {!Object.prototype.hasOwnProperty.call(
+  revealedPhones,
+  provider._id
+) ? (
+  <div className="provider-card-phones">
+    <button
+      type="button"
+      className="provider-phone-button provider-reveal-button"
+      onClick={() => handleRevealContact(provider._id)}
+      disabled={contactLoading[provider._id]}
+    >
+      {contactLoading[provider._id]
+        ? 'جاري تحميل الرقم...'
+        : '📞 إظهار الرقم'}
+    </button>
 
-                  return (
-                    <div className="provider-phone-actions" key={phone}>
-                      <a
-                        href={`tel:${phone}`}
-                        className="provider-phone-button provider-call-button"
-                      >
-                        اتصال: {phone}
-                      </a>
+    {contactErrors[provider._id] && (
+      <p className="contact-error">
+        {contactErrors[provider._id]}
+      </p>
+    )}
+  </div>
+) : revealedPhones[provider._id].length === 0 ? (
+  <div className="provider-card-phones">
+    <p>رقم الهاتف غير متوفر</p>
+  </div>
+) : (
+  <div className="provider-card-phones">
+    {revealedPhones[provider._id].map((phone) => {
+      const whatsappNumber =
+        getWhatsAppNumber(phone);
 
-                      {showWhatsApp && (
-                        <a
-                          href={`https://wa.me/${whatsappNumber}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="provider-phone-button provider-whatsapp-button"
-                        >
-                          واتساب
-                        </a>
-                      )
-                      }
-                      <button
-                        type="button"
-                        className="provider-phone-button provider-copy-button"
-                        onClick={() => handleCopyPhone(phone)}
-                      >
-                        {copiedPhone === phone ? '✓ تم النسخ' : 'نسخ الرقم'}
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+      const showWhatsApp =
+        isEgyptianMobile(phone);
+
+      return (
+        <div
+          className="provider-phone-actions"
+          key={phone}
+        >
+          <a
+            href={`tel:${phone}`}
+            className="provider-phone-button provider-call-button"
+          >
+            اتصال: {phone}
+          </a>
+
+          {showWhatsApp && (
+            <a
+              href={`https://wa.me/${whatsappNumber}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="provider-phone-button provider-whatsapp-button"
+            >
+              واتساب
+            </a>
+          )}
+
+          <button
+            type="button"
+            className="provider-phone-button provider-copy-button"
+            onClick={() => handleCopyPhone(phone)}
+          >
+            {copiedPhone === phone
+              ? '✓ تم النسخ'
+              : 'نسخ الرقم'}
+          </button>
+
+          <button
+  type="button"
+  className={`search-favorite-button ${
+    favoriteIds.includes(provider._id)
+      ? 'favorite-active'
+      : ''
+  }`}
+  onClick={() => handleFavorite(provider._id)}
+>
+  {favoriteIds.includes(provider._id)
+    ? '♥ في المفضلة'
+    : '♡ إضافة للمفضلة'}
+</button>
+        </div>
+      );
+    })}
+  </div>
+)}
           </article>
         ))}
       </div>
