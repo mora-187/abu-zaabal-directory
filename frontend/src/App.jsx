@@ -12,7 +12,7 @@ import AdminProvidersPage from './pages/AdminProvidersPage';
 import AdminCategoriesPage from './pages/AdminCategoriesPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ProtectedRoute from './components/ProtectedRoute';
-
+import FavoritesPage from './pages/FavoritesPage';
 
 function App() {
   return (
@@ -21,6 +21,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/providers" element={<ProvidersPage />} />
         <Route path="/providers/:id" element={<ProviderDetailsPage />} />
+          <Route path="/favorites" element={<FavoritesPage />} />
+
         <Route path="/search" element={<SearchPage />} />
       </Route>
 

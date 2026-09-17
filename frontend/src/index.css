@@ -97,45 +97,119 @@ img {
 
 :root,
 [data-theme="light"] {
+  /* Backgrounds */
   --public-bg: #f8fafc;
   --public-bg-secondary: #ffffff;
+
+  /* Cards / surfaces */
   --public-card: #ffffff;
   --public-card-hover: #f1f5f9;
+  --public-input: #ffffff;
 
+  /* Text */
   --public-text: #0f172a;
   --public-text-muted: #64748b;
+  --public-text-soft: #475467;
 
+  /* Borders */
   --public-border: #e2e8f0;
 
+  /* Header / Footer */
   --public-header: rgba(255, 255, 255, 0.96);
   --public-footer: #f1f5f9;
 
+  /* Main Accent */
   --public-accent: #0ea5e9;
   --public-accent-hover: #0284c7;
+  --public-accent-soft: rgba(14, 165, 233, 0.12);
+  --public-accent-border: rgba(14, 165, 233, 0.35);
 
-  --public-input: #ffffff;
+  /* Provider information */
+  --public-info-label: #667085;
+  --public-info-value: #475467;
 
+  /* Call */
+  --public-call-bg: #149a9a;
+  --public-call-hover: #117f80;
+  --public-call-text: #ffffff;
+
+  /* WhatsApp */
+  --public-whatsapp-bg: #25d366;
+  --public-whatsapp-hover: #20ba5a;
+  --public-whatsapp-text: #ffffff;
+
+  /* Copy */
+  --public-copy-bg: #ffffff;
+  --public-copy-hover: #f8fafc;
+  --public-copy-text: #173a5e;
+
+  /* Shadow */
   --public-shadow: rgba(15, 23, 42, 0.08);
+  --public-details-bg: #173a5e;
+--public-details-hover: #0f2740;
+--public-details-text: #ffffff;
 }
 
+
+/* =========================
+   DARK THEME
+   SOFT WARM ORANGE & AMBER
+========================= */
+
 [data-theme="dark"] {
-  --public-bg: #07111f;
-  --public-bg-secondary: #0d182b;
-  --public-card: #111d31;
-  --public-card-hover: #14233b;
+  /* Backgrounds - أقرب للـ charcoal من البني */
+  --public-bg: #161412;
+  --public-bg-secondary: #1b1815;
 
-  --public-text: #f8fafc;
-  --public-text-muted: #94a3b8;
+  /* Cards / surfaces */
+  --public-card: #211d19;
+  --public-card-hover: #28231e;
+  --public-input: #1f1b17;
 
-  --public-border: #26364f;
+  /* Text */
+  --public-text: #f3f0ec;
+  --public-text-muted: #b9b0a7;
+  --public-text-soft: #91877e;
 
-  --public-header: rgba(7, 17, 31, 0.96);
-  --public-footer: #0d182b;
+  /* Borders */
+  --public-border: #39332d;
 
-  --public-accent: #0ea5e9;
-  --public-accent-hover: #0284c7;
+  /* Header / Footer */
+  --public-header: rgba(19, 17, 15, 0.97);
+  --public-footer: #1b1815;
 
-  --public-input: #111d31;
+  /* Main Accent - Orange أهدى */
+  --public-accent: #c47b35;
+  --public-accent-hover: #d28a42;
 
-  --public-shadow: rgba(0, 0, 0, 0.22);
+  /* Soft Accent */
+  --public-accent-soft: rgba(196, 123, 53, 0.10);
+  --public-accent-border: rgba(196, 123, 53, 0.30);
+
+  /* Provider information */
+  --public-info-label: #968c83;
+  --public-info-value: #c9c0b7;
+
+  /* Call - Primary action */
+  --public-call-bg: #c47b35;
+  --public-call-hover: #d28a42;
+  --public-call-text: #17130f;
+
+  /* WhatsApp - neutral / muted */
+  --public-whatsapp-bg: #18713b;
+  --public-whatsapp-hover: #3e413a;
+  --public-whatsapp-text: #f0f1ed;
+
+  /* Copy - neutral */
+  --public-copy-bg: #292622;
+  --public-copy-hover: #322e29;
+  --public-copy-text: #d5d0ca;
+
+  /* Details */
+  --public-details-bg: #312c27;
+  --public-details-hover: #3b3530;
+  --public-details-text: #f3f0ec;
+
+  /* Shadow */
+  --public-shadow: rgba(0, 0, 0, 0.26);
 }

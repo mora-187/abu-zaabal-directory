@@ -1,81 +1,222 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { apiRequest } from '../services/api';
 
-export default function ProviderCard({ provider }) {
+export default function ProviderCard({ provider, onFavoriteChange }) {
+  const [phones, setPhones] = useState([]);
+  const [contactRevealed, setContactRevealed] = useState(false);
+  const [contactLoading, setContactLoading] = useState(false);
+  const [contactError, setContactError] = useState('');
   const [copied, setCopied] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(() => {
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem('favoriteProviders') || '[]'
+    );
 
-  const primaryPhone = Array.isArray(provider.phones) && provider.phones.length > 0
-    ? String(provider.phones[0]).trim()
-    : String(provider.phones || '').trim();
+    return saved.includes(provider._id);
+  } catch {
+    return false;
+  }
+});
+  const primaryPhone =
+    Array.isArray(phones) && phones.length > 0
+      ? String(phones[0]).trim()
+      : '';
 
   const cleanPhone = primaryPhone.replace(/[^0-9]/g, '');
   const isMobile = /^01[0125][0-9]{8}$/.test(cleanPhone);
-  const waNumber = isMobile ? `20${cleanPhone.slice(1)}` : cleanPhone;
+  const waNumber = isMobile
+    ? `20${cleanPhone.slice(1)}`
+    : cleanPhone;
 
   const formatList = (field) => {
     if (!field) return '';
+
     if (Array.isArray(field)) {
       return field
-        .map(i => (typeof i === 'object' && i !== null ? i.name || i.title : i))
+        .map((i) =>
+          typeof i === 'object' && i !== null
+            ? i.name || i.title
+            : i
+        )
         .filter(Boolean)
         .join(' • ');
     }
+
     return String(field);
   };
 
-  const handleCopy = (e) => {
-    e.preventDefault();
-    if (primaryPhone) {
-      navigator.clipboard.writeText(primaryPhone);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+  const handleRevealContact = async () => {
+    try {
+      setContactLoading(true);
+      setContactError('');
+
+      const data = await apiRequest(
+        `/providers/${provider._id}/contact`
+      );
+
+      setPhones(
+        Array.isArray(data?.phones)
+          ? data.phones
+          : []
+      );
+
+      setContactRevealed(true);
+    } catch (error) {
+      console.error(
+        'خطأ أثناء تحميل رقم الهاتف:',
+        error
+      );
+
+      setContactError(
+        'تعذر تحميل رقم الهاتف، حاول مرة أخرى.'
+      );
+    } finally {
+      setContactLoading(false);
     }
   };
 
+  const handleCopy = () => {
+    if (!primaryPhone) return;
+
+    navigator.clipboard.writeText(primaryPhone);
+
+    setCopied(true);
+
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+  };
+const handleFavorite = () => {
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem('favoriteProviders') || '[]'
+    );
+
+    let updatedFavorites;
+
+    if (saved.includes(provider._id)) {
+      updatedFavorites = saved.filter(
+        (id) => id !== provider._id
+      );
+
+      setIsFavorite(false);
+    } else {
+      updatedFavorites = [
+        ...saved,
+        provider._id
+      ];
+
+      setIsFavorite(true);
+    }
+
+    localStorage.setItem(
+      'favoriteProviders',
+      JSON.stringify(updatedFavorites)
+    );
+    if (onFavoriteChange) {
+  onFavoriteChange(provider._id, updatedFavorites.includes(provider._id));
+}
+  } catch (error) {
+    console.error(
+      'خطأ أثناء تحديث المفضلة:',
+      error
+    );
+  }
+};
   return (
     <div className="provider-card">
-      <h3 className="provider-card-name">{provider.name}</h3>
+      <h3 className="provider-card-name">
+        {provider.name}
+      </h3>
 
       <div className="provider-card-meta">
-        {formatList(provider.categories) || formatList(provider.groups) || 'خدمات عامة'}
+        {formatList(provider.categories) ||
+          formatList(provider.groups) ||
+          'خدمات عامة'}
       </div>
 
       <div className="provider-card-area">
         📍 {provider.area || 'أبو زعبل'}
       </div>
 
-      <div className="provider-card-phone">
-        📞 {Array.isArray(provider.phones) ? provider.phones.join(' / ') : primaryPhone || 'غير متوفر'}
-      </div>
+      {!contactRevealed ? (
+        <div className="provider-card-phone">
+          <button
+            type="button"
+            onClick={handleRevealContact}
+            disabled={contactLoading}
+            className="btn-custom btn-reveal"
+          >
+            {contactLoading
+              ? 'جاري تحميل الرقم...'
+              : '📞 إظهار الرقم'}
+          </button>
 
-      <div className="provider-card-actions">
-        <div className="provider-card-actions-row">
-          {primaryPhone && (
-            <a href={`tel:${primaryPhone}`} className="btn-custom btn-call">
-              اتصال
-            </a>
-          )}
-
-          {isMobile && (
-            <a
-              href={`https://wa.me/${waNumber}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-custom btn-whatsapp"
-            >
-              واتساب
-            </a>
-          )}
-
-          {primaryPhone && (
-            <button type="button" onClick={handleCopy} className="btn-custom btn-copy">
-              {copied ? '✓ نُسخ' : 'نسخ'}
-            </button>
+          {contactError && (
+            <div className="contact-error">
+              {contactError}
+            </div>
           )}
         </div>
+      ) : (
+        <>
+          <div className="provider-card-phone">
+            📞{' '}
+            {phones.length > 0
+              ? phones.join(' / ')
+              : 'غير متوفر'}
+          </div>
 
-        <Link to={`/providers/${provider._id}`} className="btn-custom btn-details">
+          {primaryPhone && (
+            <div className="provider-card-actions-row">
+              <a
+                href={`tel:${primaryPhone}`}
+                className="btn-custom btn-call"
+              >
+                اتصال
+              </a>
+
+              {isMobile && (
+                <a
+                  href={`https://wa.me/${waNumber}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-custom btn-whatsapp"
+                >
+                  واتساب
+                </a>
+              )}
+
+              <button
+                type="button"
+                onClick={handleCopy}
+                className="btn-custom btn-copy"
+              >
+                {copied ? '✓ نُسخ' : 'نسخ'}
+              </button>
+            </div>
+          )}
+        </>
+      )}
+
+      <div className="provider-card-actions">
+        <button
+  type="button"
+  onClick={handleFavorite}
+  className={`btn-custom btn-favorite ${
+    isFavorite ? 'favorite-active' : ''
+  }`}
+>
+  {isFavorite
+    ? '♥ في المفضلة'
+    : '♡ إضافة للمفضلة'}
+</button>
+        <Link
+          to={`/providers/${provider._id}`}
+          className="btn-custom btn-details"
+        >
           عرض التفاصيل
         </Link>
       </div>

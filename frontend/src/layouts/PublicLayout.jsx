@@ -30,7 +30,7 @@ const toggleTheme = () => {
       <header className="site-header">
         <div className="site-header-inner">
           <Link to="/" className="site-logo">
-            دليل أبو زعبل
+            Dalily ⭐
           </Link>
 
           <nav className="site-nav">
@@ -43,6 +43,9 @@ const toggleTheme = () => {
             <NavLink to="/providers">
               مقدمو الخدمات
             </NavLink>
+            <NavLink to="/favorites">
+  المفضلة
+</NavLink>
           </nav>
           <button
   type="button"
@@ -62,8 +65,10 @@ const toggleTheme = () => {
       <Outlet />
 
       <footer className="site-footer">
-        دليل خدمات أبو زعبل
-      </footer>
+     <p>© 2026 Dalily⭐. All Rights Reserved.</p>
+  <p>Developed by Omar Hisham & Team</p>
+      
+   </footer>
     </div>
   );
 }
