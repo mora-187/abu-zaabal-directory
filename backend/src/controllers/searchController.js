@@ -42,10 +42,12 @@ const searchProvider = async (req, res, next) => {
 
     // ---- Query + count using the SAME filter ----
     const [results, totalDoc] = await Promise.all([
-      Provider.find(filter)
-.sort({ createdAt: -1, _id: -1 })
-      .skip(skip)
-        .limit(_limit),
+     
+     Provider.find(filter)
+  .select("-phones")
+  .sort({ createdAt: -1, _id: -1 })
+  .skip(skip)
+  .limit(_limit),
       Provider.countDocuments(filter),
     ]);
 

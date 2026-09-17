@@ -125,7 +125,22 @@
   border: 1px solid #fecaca;
   text-align: center;
 }
+.btn-details-reveal {
+  cursor: pointer;
+  padding: 10px 18px;
+  border-radius: 8px;
+}
 
+.btn-details-reveal:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.contact-error {
+  margin-top: 10px;
+  color: #dc2626;
+  font-size: 14px;
+}
 @media (max-width: 600px) {
   .details-box {
     padding: 20px;

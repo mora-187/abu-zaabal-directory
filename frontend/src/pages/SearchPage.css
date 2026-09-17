@@ -753,7 +753,21 @@
     font-size: 14px;
   }
 }
+.provider-reveal-button {
+  width: 100%;
+  cursor: pointer;
+}
 
+.provider-reveal-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.contact-error {
+  margin-top: 8px;
+  color: #dc2626;
+  font-size: 13px;
+}
 
 /* =========================
    DESKTOP HOVER

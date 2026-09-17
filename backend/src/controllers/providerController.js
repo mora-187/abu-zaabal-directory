@@ -3,7 +3,7 @@ const { generateSearchText } = require("../utils/searchText");
 
 const getProviders=async (req,res,next)=>{
     try{
-const providers=await Provider.find();
+const providers = await Provider.find().select("-phones");
 res.status(200).json(providers);
     }
     catch(error){
@@ -12,8 +12,8 @@ res.status(200).json(providers);
 }
 const getProviderById = async (req, res, next) =>{
 try{
-const provider=await Provider.findById(req.params.id)
-if(!provider){
+const provider = await Provider.findById(req.params.id).select("-phones");
+  if(!provider){
     return res.status(404).json({
         message:"Provider not found"
     })
@@ -174,11 +174,30 @@ const deleteProvider = async (req, res, next) => {
   }
 };
 
+const getProviderContact = async (req, res, next) => {
+  try {
+    const provider = await Provider.findById(req.params.id);
+
+    if (!provider) {
+      return res.status(404).json({
+        message: "Provider not found"
+      });
+    }
+
+    res.status(200).json({
+      phones: provider.phones
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
   getProviders,
   getProviderById,
   createProvider,
   updateProvider,
-  deleteProvider
+  deleteProvider,
+  getProviderContact
 };
