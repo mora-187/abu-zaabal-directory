@@ -50,7 +50,13 @@
   border-radius: 50%;
   animation: state-spin 0.8s linear infinite;
 }
+.btn-favorite {
+  cursor: pointer;
+}
 
+.favorite-active {
+  font-weight: 700;
+}
 @keyframes state-spin {
   to {
     transform: rotate(360deg);

@@ -2,13 +2,23 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiRequest } from '../services/api';
 
-export default function ProviderCard({ provider }) {
+export default function ProviderCard({ provider, onFavoriteChange }) {
   const [phones, setPhones] = useState([]);
   const [contactRevealed, setContactRevealed] = useState(false);
   const [contactLoading, setContactLoading] = useState(false);
   const [contactError, setContactError] = useState('');
   const [copied, setCopied] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(() => {
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem('favoriteProviders') || '[]'
+    );
 
+    return saved.includes(provider._id);
+  } catch {
+    return false;
+  }
+});
   const primaryPhone =
     Array.isArray(phones) && phones.length > 0
       ? String(phones[0]).trim()
@@ -78,7 +88,43 @@ export default function ProviderCard({ provider }) {
       setCopied(false);
     }, 2000);
   };
+const handleFavorite = () => {
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem('favoriteProviders') || '[]'
+    );
 
+    let updatedFavorites;
+
+    if (saved.includes(provider._id)) {
+      updatedFavorites = saved.filter(
+        (id) => id !== provider._id
+      );
+
+      setIsFavorite(false);
+    } else {
+      updatedFavorites = [
+        ...saved,
+        provider._id
+      ];
+
+      setIsFavorite(true);
+    }
+
+    localStorage.setItem(
+      'favoriteProviders',
+      JSON.stringify(updatedFavorites)
+    );
+    if (onFavoriteChange) {
+  onFavoriteChange(provider._id, updatedFavorites.includes(provider._id));
+}
+  } catch (error) {
+    console.error(
+      'خطأ أثناء تحديث المفضلة:',
+      error
+    );
+  }
+};
   return (
     <div className="provider-card">
       <h3 className="provider-card-name">
@@ -156,6 +202,17 @@ export default function ProviderCard({ provider }) {
       )}
 
       <div className="provider-card-actions">
+        <button
+  type="button"
+  onClick={handleFavorite}
+  className={`btn-custom btn-favorite ${
+    isFavorite ? 'favorite-active' : ''
+  }`}
+>
+  {isFavorite
+    ? '♥ في المفضلة'
+    : '♡ إضافة للمفضلة'}
+</button>
         <Link
           to={`/providers/${provider._id}`}
           className="btn-custom btn-details"

@@ -377,22 +377,7 @@
   font-size: 13px;
   color: #dc2626;
 }
-.btn-details-reveal {
-  cursor: pointer;
-  padding: 10px 18px;
-  border-radius: 8px;
-}
 
-.btn-details-reveal:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.contact-error {
-  margin-top: 10px;
-  color: #dc2626;
-  font-size: 14px;
-}
 /* =========================
    MOBILE
 ========================= */

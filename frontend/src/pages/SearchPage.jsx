@@ -33,6 +33,15 @@ const [contactErrors, setContactErrors] = useState({});
   const [page, setPage] = useState(initialPage);
   const [pages, setPages] = useState(1);
   const [total, setTotal] = useState(0);
+  const [favoriteIds, setFavoriteIds] = useState(() => {
+  try {
+    return JSON.parse(
+      localStorage.getItem('favoriteProviders') || '[]'
+    );
+  } catch {
+    return [];
+  }
+});
 
   useEffect(() => {
     const loadGroups = async () => {
@@ -266,6 +275,27 @@ const handleRevealContact = async (providerId) => {
     const cleanPhone = String(phone).replace(/\D/g, '');
     return /^01[0125]\d{8}$/.test(cleanPhone);
   };
+  const handleFavorite = (providerId) => {
+  let updatedFavorites;
+
+  if (favoriteIds.includes(providerId)) {
+    updatedFavorites = favoriteIds.filter(
+      (id) => id !== providerId
+    );
+  } else {
+    updatedFavorites = [
+      ...favoriteIds,
+      providerId
+    ];
+  }
+
+  localStorage.setItem(
+    'favoriteProviders',
+    JSON.stringify(updatedFavorites)
+  );
+
+  setFavoriteIds(updatedFavorites);
+};
   return (
     <main className="page-container search-page">
       <div className="search-header">
@@ -483,6 +513,20 @@ const handleRevealContact = async (providerId) => {
               ? '✓ تم النسخ'
               : 'نسخ الرقم'}
           </button>
+
+          <button
+  type="button"
+  className={`search-favorite-button ${
+    favoriteIds.includes(provider._id)
+      ? 'favorite-active'
+      : ''
+  }`}
+  onClick={() => handleFavorite(provider._id)}
+>
+  {favoriteIds.includes(provider._id)
+    ? '♥ في المفضلة'
+    : '♡ إضافة للمفضلة'}
+</button>
         </div>
       );
     })}
