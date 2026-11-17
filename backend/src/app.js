@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const connectDB = require("./config/db");
 const providerRoutes = require("./routes/providerRoutes");
 const categoryRoutes = require('./routes/categoryRoutes');
 const errorHandler = require("./middleware/errorHandler");
@@ -21,6 +22,14 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'ok'
   });
+});
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 
 app.use('/api', categoryRoutes);
