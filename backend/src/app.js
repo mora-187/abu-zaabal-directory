@@ -1,16 +1,15 @@
 const express = require('express');
 const cors = require('cors');
-const connectDB = require("./config/db");
 const providerRoutes = require("./routes/providerRoutes");
 const categoryRoutes = require('./routes/categoryRoutes');
 const errorHandler = require("./middleware/errorHandler");
 const authRoutes = require("./routes/authRoutes");
+const connectDB = require("./config/db");
+
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/providers", providerRoutes);
-app.use("/api/auth", authRoutes);
 
 app.get('/', (req, res) => {
   res.status(200).json({
@@ -31,7 +30,8 @@ app.use(async (req, res, next) => {
     next(error);
   }
 });
-
+app.use("/api/providers", providerRoutes);
+app.use("/api/auth", authRoutes);
 app.use('/api', categoryRoutes);
 
 app.use((req, res) => {
