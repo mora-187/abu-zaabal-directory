@@ -13,6 +13,12 @@ const userSchema = new mongoose.Schema(
     },
     password: { type: String, required: true, minlength: 6 },
     role: { type: String, enum: ["admin", "user"], default: "user" },
+    favorites: [
+  {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Provider",
+  },
+],
   },
   { timestamps: true }
 );
