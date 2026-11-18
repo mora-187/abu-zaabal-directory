@@ -4,6 +4,7 @@ const providerRoutes = require("./routes/providerRoutes");
 const categoryRoutes = require('./routes/categoryRoutes');
 const errorHandler = require("./middleware/errorHandler");
 const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
 const connectDB = require("./config/db");
 
 const app = express();
@@ -33,6 +34,7 @@ app.use(async (req, res, next) => {
 app.use("/api/providers", providerRoutes);
 app.use("/api/auth", authRoutes);
 app.use('/api', categoryRoutes);
+app.use("/api/users", userRoutes);
 
 app.use((req, res) => {
   res.status(404).json({
