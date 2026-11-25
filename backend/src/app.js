@@ -5,6 +5,7 @@ const categoryRoutes = require('./routes/categoryRoutes');
 const errorHandler = require("./middleware/errorHandler");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const reviewRoutes = require("./routes/reviewRoutes");
 const connectDB = require("./config/db");
 
 const app = express();
@@ -35,7 +36,7 @@ app.use("/api/providers", providerRoutes);
 app.use("/api/auth", authRoutes);
 app.use('/api', categoryRoutes);
 app.use("/api/users", userRoutes);
-
+app.use("/api", reviewRoutes);
 app.use((req, res) => {
   res.status(404).json({
     message: 'Route not found'
