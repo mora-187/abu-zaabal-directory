@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { apiRequest } from '../services/api';
 import './ProviderDetailsPage.css';
+import ReviewsSection from '../components/ReviewsSection';
 
 export default function ProviderDetailsPage() {
   const { id } = useParams();
@@ -229,6 +230,7 @@ export default function ProviderDetailsPage() {
         )}
 
       </div>
+      <ReviewsSection providerId={id} />
     </div>
   );
 }
